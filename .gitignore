@@ -1,0 +1,126 @@
+#include <iostream>
+#include <string>
+#include <limits>
+#include <iomanip>
+using namespace std;
+
+// function to check if the name is valid (only letters and spaces)
+bool isValidName(const string& name) {
+    for (char c : name) {
+        if (!isalpha(c) && c != ' ') return false; // if it's not a letter or space, it's bad
+    }
+    return !name.empty(); // can't be empty either
+}
+
+// function to check if the ID is valid (numbers and dashes only, ex: 06-2024-017)
+bool isValidID(const string& id) {
+    for (char c : id) {
+        if (!isdigit(c) && c != '-') return false; // only digits and dashes allowed
+    }
+    return !id.empty(); // also can't be empty
+}
+
+// function to get a valid name
+string getValidName(string prompt) {
+    string name;
+    while (true) {
+        cout << prompt;
+        getline(cin, name);
+        if (isValidName(name)) return name; // yay valid name
+        cout << "Invalid input. Please enter your name with letters and spaces only.\n";
+    }
+}
+
+// function to get a valid ID
+string getValidID(string prompt) {
+    string id;
+    while (true) {
+        cout << prompt;
+        getline(cin, id);
+        if (isValidID(id)) return id; // yay valid ID
+        cout << "Invalid input. Enter numbers with dashes or just nubers (like 06-2024-017).\n";
+    }
+}
+
+// function to get a valid age (only numbers)
+int getValidInt(string prompt) {
+    string input;
+    int value;
+    while (true) {
+        cout << prompt;
+        getline(cin, input);
+
+        bool valid = true;
+        for (char c : input) {
+            if (!isdigit(c)) { // if not a digit then it's bad
+                valid = false;
+                break;
+            }
+        }
+
+        if (valid && !input.empty()) {
+            value = stoi(input);
+            if (value >= 0) return value; // no negative ages bruh
+        }
+
+        cout << "Invalid input. Please enter numbers only (no dashes or letters).\n";
+    }
+}
+
+// function to get a valid grade level (1-12, numbers only, no dashes)
+int getValidGradeLevel(string prompt) {
+    string input;
+    int level;
+    while (true) {
+        cout << prompt;
+        getline(cin, input);
+
+        bool valid = true;
+        for (char c : input) {
+            if (!isdigit(c)) { // if not a digit then it's bad
+                valid = false;
+                break;
+            }
+        }
+
+        if (valid && !input.empty()) {
+            level = stoi(input);
+            if (level >= 1 && level <= 12) return level; // only grades 1 to 12 allowed
+        }
+
+        cout << "Invalid input. Please enter a grade level from 1 to 12 (numbers only).\n";
+    }
+}
+
+// function to add suffix to grade level like 1st, 2nd, 3rd, etc
+string getGradeSuffix(int gradeLevel) {
+    if (gradeLevel == 1) return "1st Grade";
+    if (gradeLevel == 2) return "2nd Grade";
+    if (gradeLevel == 3) return "3rd Grade";
+    return to_string(gradeLevel) + "th Grade"; // for all the rest
+}
+
+int main() {
+    cout << "========================================\n";
+    cout << "         STUDENT PROFILE SETUP\n";
+    cout << "========================================\n\n";
+
+    string studentName = getValidName("Enter student name: ");
+    string studentID = getValidID("Enter student ID: ");
+    int age = getValidInt("Enter student age (numbers only): ");
+    int gradeLevel = getValidGradeLevel("Enter grade level (1-12): ");
+
+    cout << "\nProfile created successfully!\n\n";
+
+    cout << "========================================\n";
+    cout << "           STUDENT PROFILE\n";
+    cout << "========================================\n";
+    cout << "Name: " << studentName << endl;
+    cout << "ID: " << studentID << endl;
+    cout << "Age: " << age << " years old\n";
+    cout << "Grade Level: " << getGradeSuffix(gradeLevel) << "\n";
+    cout << "Birth Year: " << (2025 - age) << endl;
+    cout << "========================================\n";
+
+    return 0;
+}
