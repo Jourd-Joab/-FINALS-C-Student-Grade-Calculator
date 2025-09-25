@@ -26,7 +26,7 @@ string getValidName(string prompt) {
     while (true) {
         cout << prompt;
         getline(cin, name);
-        if (isValidName(name)) return name; // yay valid name
+        if (isValidName(name)) return name; // valid name
         cout << "Invalid input. Please enter your name with letters and spaces only.\n";
     }
 }
